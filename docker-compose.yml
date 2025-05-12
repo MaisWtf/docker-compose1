@@ -3,7 +3,8 @@ version: "3.8"
 services:
   gitea:
     image: gitea/gitea:latest
-    environment:
+    environment: 
+### Permet de définir des variables dont Gitea aura besoin pour bien fonctionner (ici la db).
       - DB_TYPE=postgres
       - DB_HOST=db:5432
       - DB_NAME=gitea
@@ -12,6 +13,9 @@ services:
     restart: always
     volumes:
       - git_data:/data
+    networks:
+    - frontend
+    - backend
     ports:
       - "3000:3000"
     depends_on:
@@ -24,10 +28,17 @@ services:
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
     restart: always
+    networks:
+    - backend
     volumes:
       - db_data:/var/lib/postgresql/data
     expose:
+### Permet d'indiquer quel port utilise la db ici.
       - "5432"
+
+networks:
+  frontend:
+  backend:
 
 volumes:
   db_data:
