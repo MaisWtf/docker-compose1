@@ -13,6 +13,7 @@ services:
     restart: always
     volumes:
       - git_data:/data
+      - git_log:/var/log/gitea
     networks:
     - frontend
     - backend
